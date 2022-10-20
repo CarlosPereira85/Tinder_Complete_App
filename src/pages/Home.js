@@ -6,6 +6,8 @@ import AuthModal from "../components/AuthModal";
 
 const Home = () => {
   const [showModal, setShowModel] = useState(false);
+  const [isSignUp,setIsSignUp] = useState(true);
+
 
 
   const authToken = false;
@@ -13,6 +15,7 @@ const Home = () => {
   const handleClick = () => {
 
     setShowModel(true);
+    setIsSignUp(true);
   };
 
 
@@ -20,7 +23,12 @@ const Home = () => {
     <>
       <div className="overlay">
 
-        <Nav minimal={false} authToken={authToken} setShowModel={ setShowModel } showModal={showModal} />
+        <Nav
+         minimal={false} 
+          setShowModel={ setShowModel } 
+          showModal={showModal}
+          setIsSignUp={setIsSignUp}
+          />
 
 
 
@@ -32,7 +40,7 @@ const Home = () => {
           </button>
 
           {showModal &&
-            (<AuthModal setShowModel={setShowModel} />
+            (<AuthModal setShowModel={setShowModel} setIsSignUp={setIsSignUp}  isSignUp={isSignUp}/>
 
             )}
 

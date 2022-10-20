@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import ClearIcon from '@mui/icons-material/Clear';// import { useCookies } from 'react-cookie'
 
 
-const AuthModal = ({ setShowModal,  isSignUp }) => {
+const AuthModal = ({ setShowModel,  isSignUp,  }) => {
     const [email, setEmail] = useState(null)
     const [password, setPassword] = useState(null)
     const [confirmPassword, setConfirmPassword] = useState(null)
@@ -17,7 +17,7 @@ const AuthModal = ({ setShowModal,  isSignUp }) => {
 
 
     const handleClick = () => {
-        setShowModal(false)
+        setShowModel(false)
     }
 
     const handleSubmit = async (e) => {
