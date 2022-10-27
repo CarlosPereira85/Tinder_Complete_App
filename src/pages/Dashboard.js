@@ -1,11 +1,56 @@
 
 
+import axios from 'axios';
 import { useState } from 'react';
 import TinderCard from 'react-tinder-card';
 import ChatContainer from '../components/ChatContainer';
+import {useCookies} from 'react-cookie'
+import {useEffect } from 'react'
+
 
 
 const Dashboard = () => {
+  const [cookies, setCookie, removeCookie] = useCookies(["user"])
+  const [genderedUsers, setGenderedUsers] = useState(null)
+  const [user, setUser] = useState(null);
+  const userId = cookies.UserId
+
+  console.log(userId);
+  
+const getUser = async () => {
+  
+    try {
+      const response = await axios.get(`http://localhost:5000/user/${userId}`);
+      console.log(response);
+      setUser(response.data.profile);
+    } catch (err) {
+      console.log(err);
+    }
+
+ 
+}
+
+
+
+const getGenderedUser = async () => {
+  try {
+    const response = await axios.get(`http://localhost:5000/user/gendered-users?.gender_interest`);
+    console.log(response);
+    setGenderedUsers(response.data);
+  } catch (err) {
+    console.log(err);
+  }
+
+
+}
+
+useEffect(() => {
+  getUser();
+  getGenderedUser();
+}, [user, genderedUsers]);
+console.log(genderedUsers);
+console.log(user)
+
 
   const genderedUser= [
     {
@@ -44,8 +89,10 @@ const Dashboard = () => {
   return (
     <>
         {
+          user &&
+
         <div className="dashboard">
-            <ChatContainer />
+            <ChatContainer user={user}/>
             <div className="swipe-container">
                 <div className="card-container">
 
@@ -54,11 +101,11 @@ const Dashboard = () => {
                             className="swipe"
                             key={genderedUser.user_id}
                             onSwipe={(dir) => swiped(dir, genderedUser.user_id)}
-                            onCardLeftScreen={() => outOfFrame(genderedUser.first_name)}>
+                            onCardLeftScreen={() => outOfFrame(genderedUser.name)}>
                             <div
                                 style={{backgroundImage: "url(" + genderedUser.url + ")"}}
                                 className="card">
-                                <h3>{genderedUser.first_name}</h3>
+                                <h3>{genderedUser.name}</h3>
                             </div>
                         </TinderCard>
                     )}
